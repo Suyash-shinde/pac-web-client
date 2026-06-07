@@ -1,0 +1,120 @@
+/* ---- Shared card styles ---- */
+
+.event-card__link,
+.creator-card__link,
+.product-card__link,
+.blog-card__link {
+  display: block;
+  color: inherit;
+  height: 100%;
+}
+
+.event-card__media,
+.product-card__media {
+  position: relative;
+}
+.event-card__cat {
+  position: absolute;
+  top: var(--sp-3);
+  left: var(--sp-3);
+}
+.event-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: var(--sp-2);
+}
+.event-card__price {
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.event-card__venue {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* Creator card */
+.creator-card {
+  text-align: center;
+}
+.creator-card__cover {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  background: var(--bg-elev-2);
+}
+.creator-card__body {
+  padding: 0 var(--sp-5) var(--sp-5);
+  margin-top: -40px;
+}
+.creator-card__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto var(--sp-3);
+  border: 3px solid var(--bg-elev);
+  background: var(--bg-elev-2);
+}
+.creator-card__name {
+  margin: 0 0 var(--sp-3);
+  font-size: 1.15rem;
+}
+.creator-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: var(--sp-3);
+}
+.creator-card__bio {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Product card */
+.product-card__tag {
+  position: absolute;
+  top: var(--sp-3);
+  left: var(--sp-3);
+}
+.product-card__body {
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+}
+.product-card__cat {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.product-card__name {
+  margin: var(--sp-1) 0 var(--sp-2);
+  font-size: 1.05rem;
+}
+.product-card__price {
+  color: var(--accent-2);
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* Blog card */
+.blog-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: var(--sp-3);
+}
+.blog-card__author {
+  display: inline-block;
+  margin-top: var(--sp-3);
+  font-size: 0.85rem;
+  color: var(--muted);
+}

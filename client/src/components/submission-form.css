@@ -1,0 +1,57 @@
+/* Member submission modal — mirrors the admin modal using public theme tokens. */
+.sub-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+}
+.sub-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+.sub-modal__card {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90svh;
+  overflow-y: auto;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+}
+.sub-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-3);
+}
+.sub-modal__head h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.sub-modal__close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.sub-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+/* Google Identity Services button wrapper — center it within forms. */
+.google-btn {
+  display: flex;
+  justify-content: center;
+}
