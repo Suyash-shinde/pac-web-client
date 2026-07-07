@@ -11,6 +11,7 @@ export default function CreatorCard({ creator, basePath = '/creators' }) {
           <img src={creator.avatar} alt={creator.name} className="creator-card__avatar" loading="lazy" />
           <h3 className="creator-card__name">{creator.name}</h3>
           <div className="creator-card__tags">
+            {creator.kind === 'cosplayer' && <Badge variant="red">Cosplayer</Badge>}
             <Badge>{creator.specialty}</Badge>
             {creator.level && <Badge variant="silver">{creator.level}</Badge>}
             {creator.commissions && (

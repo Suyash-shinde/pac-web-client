@@ -50,6 +50,20 @@
   margin-top: var(--sp-5);
 }
 
+/* Inline (checkbox) field: label and control on one row. */
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.field--inline input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  accent-color: var(--accent);
+  flex: none;
+}
+
 /* Google Identity Services button wrapper — center it within forms. */
 .google-btn {
   display: flex;

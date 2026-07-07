@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -6,7 +6,6 @@ import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import PastEvents from './pages/PastEvents'
 import Creators from './pages/Creators'
-import Cosplayers from './pages/Cosplayers'
 import CreatorProfile from './pages/CreatorProfile'
 import Gallery from './pages/Gallery'
 import Store from './pages/Store'
@@ -46,10 +45,11 @@ export default function App() {
         <Route path="events/:slug" element={<EventDetail />} />
         <Route path="creators" element={<Creators />} />
         <Route path="creators/:slug" element={<CreatorProfile />} />
-        <Route path="cosplayers" element={<Cosplayers />} />
+        {/* Cosplayers merged into the Creator Hub; keep old links working. */}
+        <Route path="cosplayers" element={<Navigate to="/creators" replace />} />
         <Route path="cosplayers/:slug" element={<CreatorProfile />} />
         <Route path="gallery" element={<Gallery />} />
-        <Route path="store" element={<Store />} />
+       {/*<Route path="store" element={<Store />} /> */}
         <Route path="store/:slug" element={<ProductDetail />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:slug" element={<BlogPost />} />

@@ -21,6 +21,12 @@ export const RESOURCES = {
       { name: 'price', label: 'Price' },
       { name: 'attendance', label: 'Attendance', type: 'number' },
       { name: 'is_past', label: 'Past event', type: 'checkbox' },
+      {
+        name: 'signup_fields',
+        label: 'Registration sign-up fields',
+        type: 'signupfields',
+        help: 'Name, email and phone are always collected. Add any extra fields attendees must fill in the sign-up modal.',
+      },
     ],
   },
   blog: {

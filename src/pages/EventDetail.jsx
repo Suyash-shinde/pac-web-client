@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams, Link } from 'react-router-dom'
 import Section from '../components/ui/Section'
 import Button from '../components/ui/Button'
 import { Badge } from '../components/ui/Card'
 import Spinner from '../components/ui/Spinner'
 import Countdown from '../components/Countdown'
+import RegistrationModal from '../components/RegistrationModal'
 import { useApi } from '../lib/useApi'
 import { apiGet, apiPost } from '../lib/api'
 import { useAuth } from '../lib/auth'
@@ -18,41 +19,78 @@ export default function EventDetail() {
   const { data: event, loading } = useApi(`/events/${slug}`, getEventBySlug(slug))
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const [going, setGoing] = useState(false)
   const [count, setCount] = useState(null) // null until we have a live count; render falls back to event.rsvpCount
   const [busy, setBusy] = useState(false)
+  const [registration, setRegistration] = useState(null) // the user's saved sign-up details
+  const [showModal, setShowModal] = useState(false)
 
   // Fetch the user's RSVP status (and an authoritative count) once we know them.
   useEffect(() => {
     if (!user || !slug) return
     let active = true
     apiGet(`/events/${slug}/rsvp`)
-      .then((r) => { if (active) { setGoing(r.going); setCount(r.count) } })
+      .then((r) => { if (active) { setGoing(r.going); setCount(r.count); setRegistration(r.registration || null) } })
       .catch(() => {})
     return () => { active = false }
   }, [user, slug])
 
+  // Whether the event is over. Trust the admin-controlled flag from the API;
+  // fall back to a date check only for offline stub data that lacks it.
+  const isPast = event
+    ? (event.isPast ?? new Date(event.date) < new Date())
+    : false
+
+  // Auto-open the sign-up modal when arrived via a "Register" link (?register=1).
+  useEffect(() => {
+    if (!event || isPast) return
+    if (searchParams.get('register') == null) return
+    if (!user) {
+      navigate('/login', { state: { from: `/events/${slug}?register=1` } })
+      return
+    }
+    setShowModal(true)
+    // Clear the flag so a refresh doesn't reopen it.
+    searchParams.delete('register')
+    setSearchParams(searchParams, { replace: true })
+  }, [event, isPast, user, slug, searchParams, setSearchParams, navigate])
+
   if (loading && !event) return <Section><Spinner /></Section>
   if (!event) return <NotFound />
 
-  const isPast = new Date(event.date) < new Date()
   const mapsHref = event.mapUrl
     || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.venue || 'Pune')}`
   const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(event.venue || 'Pune')}&output=embed`
 
-  const toggleRsvp = async () => {
-    if (!user) return navigate('/login', { state: { from: `/events/${slug}` } })
+  // Not going → open the sign-up modal (login first if needed).
+  const openRegister = () => {
+    if (!user) return navigate('/login', { state: { from: `/events/${slug}?register=1` } })
+    setShowModal(true)
+  }
+
+  // Already going → cancel the RSVP (also clears saved registration server-side).
+  const cancelRsvp = async () => {
     setBusy(true)
     try {
       const r = await apiPost(`/events/${slug}/rsvp`)
       setGoing(r.going)
       setCount(r.count)
+      if (!r.going) setRegistration(null)
     } catch {
       // ignore; button stays as-is
     } finally {
       setBusy(false)
     }
+  }
+
+  const onRegistered = (r) => {
+    setGoing(true)
+    if (r?.count != null) setCount(r.count)
+    setShowModal(false)
+    // Refresh saved details for a later edit.
+    apiGet(`/events/${slug}/rsvp`).then((s) => setRegistration(s.registration || null)).catch(() => {})
   }
 
   return (
@@ -69,9 +107,20 @@ export default function EventDetail() {
           {!isPast && (
             <div className="event-detail__cta">
               <Countdown date={event.date} compact />
-              <Button size="lg" variant={going ? 'ghost' : 'primary'} disabled={busy} onClick={toggleRsvp}>
-                {busy ? 'Saving…' : going ? '✓ You’re going (cancel)' : 'Register / RSVP'}
-              </Button>
+              {going ? (
+                <div className="event-detail__going">
+                  <Button size="lg" variant="ghost" onClick={() => setShowModal(true)}>
+                    ✓ You’re registered — edit details
+                  </Button>
+                  <Button variant="outline" disabled={busy} onClick={cancelRsvp}>
+                    {busy ? 'Cancelling…' : 'Cancel'}
+                  </Button>
+                </div>
+              ) : (
+                <Button size="lg" variant="primary" onClick={openRegister}>
+                  Register / RSVP
+                </Button>
+              )}
             </div>
           )}
         </div>
@@ -119,6 +168,15 @@ export default function EventDetail() {
           ></iframe>
         </div>
       </div>
+
+      {showModal && (
+        <RegistrationModal
+          event={event}
+          existing={registration}
+          onClose={() => setShowModal(false)}
+          onRegistered={onRegistered}
+        />
+      )}
     </Section>
   )
 }

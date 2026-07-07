@@ -10,9 +10,7 @@ const LINKS = [
   { to: '/about', label: 'About' },
   { to: '/events', label: 'Events' },
   { to: '/creators', label: 'Creators' },
-  { to: '/cosplayers', label: 'Cosplayers' },
   { to: '/gallery', label: 'Gallery' },
-  { to: '/store', label: 'Store' },
   { to: '/blog', label: 'Blog' },
   { to: '/contact', label: 'Contact' },
 ]

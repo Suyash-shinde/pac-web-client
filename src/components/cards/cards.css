@@ -9,9 +9,22 @@
   height: 100%;
 }
 
+.event-card {
+  display: flex;
+  flex-direction: column;
+}
+.event-card .card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.event-card__link {
+  flex: 1; /* text link grows so the Register button aligns to the card bottom */
+}
 .event-card__media,
 .product-card__media {
   position: relative;
+  display: block;
 }
 .event-card__cat {
   position: absolute;
@@ -32,10 +45,15 @@
   font-weight: 700;
 }
 .event-card__venue {
-  display: inline-block;
+  display: block;
   margin-top: var(--sp-3);
   font-size: 0.85rem;
   color: var(--text-dim);
+}
+.event-card__register {
+  display: flex;
+  margin-top: var(--sp-4);
+  width: 100%;
 }
 
 /* Creator card */

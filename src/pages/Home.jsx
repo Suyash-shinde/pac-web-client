@@ -59,9 +59,8 @@ export default function Home() {
               experiences.
             </p>
             <div className="hero__cta">
-              <Button to="/contact" size="lg">Join the Community</Button>
+              <Button to="/socials" size="lg">Join the Community</Button>
               <Button to="/events" variant="ghost" size="lg">Explore Events</Button>
-              <Button to="/store" variant="outline" size="lg">Visit Store</Button>
             </div>
             <div className="hero__stats">
               {stats.map((s) => (
@@ -88,7 +87,7 @@ export default function Home() {
             </p>
             <div className="home-about__actions">
               <Button to="/about" variant="ghost">Learn More</Button>
-              <Button to="/contact">Become a Member</Button>
+              <Button to="/socials">Become a Member</Button>
             </div>
           </div>
             <Logo size="xl" wordmark={false} />
@@ -102,17 +101,6 @@ export default function Home() {
           title="Upcoming Events"
           subtitle="Meetups, cosplay walks, workshops and trips — there's always something happening."
         />
-        {nextEvent && (
-          <Card hover={false} className="home-events__feature">
-            <div className="home-events__feature-info">
-              <span className="eyebrow">Next up</span>
-              <h3>{nextEvent.title}</h3>
-              <p>{nextEvent.excerpt}</p>
-              <Countdown date={nextEvent.date} />
-            </div>
-            <Button to={`/events/${nextEvent.slug}`}>Register</Button>
-          </Card>
-        )}
         <div className="grid grid-3">
           {events.slice(0, 3).map((e) => (
             <EventCard key={e.slug} event={e} />
@@ -140,23 +128,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Store preview */}
-      <Section className="home-store">
-        <SectionHeading
-          eyebrow="PAC Store"
-          title="Wear the Community"
-          subtitle="Official merch, limited drops and anime-inspired apparel."
-        />
-        <div className="grid grid-4">
-          {products.slice(0, 4).map((p) => (
-            <ProductCard key={p.slug} product={p} />
-          ))}
-        </div>
-        <div className="text-center home-events__more">
-          <Button to="/store" variant="outline">Shop the store</Button>
-        </div>
-      </Section>
-
       {/* Testimonials */}
       <Section className="home-testimonials">
         <SectionHeading center eyebrow="Community Voices" title="What members say" />
@@ -176,34 +147,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Social + newsletter */}
-      <Section className="home-cta">
-        <Card hover={false} className="home-cta__card glass">
-          <h2>Stay in the loop</h2>
-          <p>Get updates on meetups, conventions, giveaways and anime events.</p>
-          {subscribed ? (
-            <p className="form-success" style={{ maxWidth: 520, margin: 'var(--sp-5) auto' }}>
-              ✓ You&apos;re on the list! Watch your inbox for PAC updates.
-            </p>
-          ) : (
-            <form className="home-cta__form" onSubmit={handleSubscribe}>
-              <input type="text" name="name" placeholder="Your name" aria-label="Name" required />
-              <input type="email" name="email" placeholder="Email address" aria-label="Email" required />
-              <Button type="submit">Subscribe</Button>
-            </form>
-          )}
-          <div className="home-cta__socials">
-            {SOCIALS.map((s) => (
-              <a key={s.name} href={s.url} target="_blank" rel="noreferrer">
-                {s.name}
-              </a>
-            ))}
-          </div>
-          <p className="home-cta__note">
-            Prefer chat? <Link to="/socials">Join our Discord &amp; WhatsApp →</Link>
-          </p>
-        </Card>
-      </Section>
     </>
   )
 }

@@ -8,14 +8,18 @@ import CreatorCard from '../components/cards/CreatorCard'
 import SubmissionForm from '../components/SubmissionForm'
 import { useApi } from '../lib/useApi'
 import { useAuth } from '../lib/auth'
-import { CREATORS, CREATOR_CATEGORIES } from '../data/creators'
+import { ALL_CREATORS, CREATOR_CATEGORIES } from '../data/creators'
 import './pages.css'
 
 export default function Creators() {
   const [cat, setCat] = useState('All')
   const [joining, setJoining] = useState(false)
-  const { data: creators } = useApi('/creators', CREATORS)
-  const filtered = creators.filter((c) => cat === 'All' || c.specialty === cat)
+  const { data: creators } = useApi('/creators', ALL_CREATORS)
+  const filtered = creators.filter((c) => {
+    if (cat === 'All') return true
+    if (cat === 'Cosplayers') return c.kind === 'cosplayer'
+    return c.specialty === cat
+  })
   const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -29,11 +33,10 @@ export default function Creators() {
       <PageHeader
         eyebrow="Creator Hub"
         title="Showcase your craft"
-        subtitle="A platform where artists, editors, musicians and more share their work and grow with the community."
+        subtitle="A platform where artists, editors, musicians, cosplayers and more share their work and grow with the community."
       >
         <div style={{ display: 'flex', gap: 'var(--sp-3)', marginTop: 'var(--sp-5)', flexWrap: 'wrap' }}>
           <Button onClick={handleJoin}>Submit your portfolio</Button>
-          <Button to="/cosplayers" variant="ghost">Cosplayer Hub →</Button>
         </div>
       </PageHeader>
 

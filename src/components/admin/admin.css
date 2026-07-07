@@ -306,11 +306,65 @@
   height: 20px;
   accent-color: var(--accent);
 }
+.admin-modal__card--wide {
+  max-width: 900px;
+}
 .admin-modal__actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--sp-3);
   margin-top: var(--sp-5);
+}
+
+/* Small helper text under a form field label */
+.field__help {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+  margin-top: calc(-1 * var(--sp-1));
+}
+
+/* Sign-up fields editor (event registration form builder) */
+.signup-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3);
+  background: var(--bg-elev-2);
+}
+.signup-fields__empty {
+  margin: 0;
+  font-size: 0.85rem;
+}
+.signup-fields__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.signup-fields__label {
+  flex: 2 1 160px;
+}
+.signup-fields__options {
+  flex: 2 1 160px;
+}
+.signup-fields__row select {
+  flex: 1 1 110px;
+}
+.signup-fields__req {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.signup-fields__req input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
 }
 
 @media (max-width: 860px) {

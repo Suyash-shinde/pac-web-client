@@ -1,4 +1,4 @@
-import { useParams, Link, useLocation } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Section from '../components/ui/Section'
 import Button from '../components/ui/Button'
 import { Badge } from '../components/ui/Card'
@@ -10,27 +10,20 @@ import './pages.css'
 
 export default function CreatorProfile() {
   const { slug } = useParams()
-  const { pathname } = useLocation()
-  const isCosplayer = pathname.startsWith('/cosplayers')
-  const { data: person, loading } = useApi(
-    `/${isCosplayer ? 'cosplayers' : 'creators'}/${slug}`,
-    getCreatorBySlug(slug)
-  )
+  const { data: person, loading } = useApi(`/creators/${slug}`, getCreatorBySlug(slug))
   if (loading && !person) return <Section><Spinner /></Section>
   if (!person) return <NotFound />
-
-  const backTo = isCosplayer ? '/cosplayers' : '/creators'
-  const backLabel = backTo === '/cosplayers' ? 'cosplayers' : 'creators'
 
   return (
     <Section>
       <div className="profile">
-        <Link to={backTo} className="back-link">← Back to {backLabel}</Link>
+        <Link to="/creators" className="back-link">← Back to creators</Link>
         <img src={person.cover} alt="" className="profile__cover" />
         <div className="profile__head">
           <img src={person.avatar} alt={person.name} className="profile__avatar" />
           <h1>{person.name}</h1>
           <div className="profile__tags">
+            {person.kind === 'cosplayer' && <Badge variant="red">Cosplayer</Badge>}
             <Badge>{person.specialty}</Badge>
             {person.level && <Badge variant="silver">{person.level}</Badge>}
             {person.commissions && (

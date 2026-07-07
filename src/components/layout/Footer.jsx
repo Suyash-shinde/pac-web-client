@@ -18,9 +18,7 @@ const COLUMNS = [
     title: 'Community',
     links: [
       { to: '/creators', label: 'Creator Hub' },
-      { to: '/cosplayers', label: 'Cosplayer Hub' },
       { to: '/socials', label: 'Socials' },
-      { to: '/store', label: 'Store' },
     ],
   },
   {

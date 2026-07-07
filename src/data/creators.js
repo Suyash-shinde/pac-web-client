@@ -1,5 +1,6 @@
 export const CREATOR_CATEGORIES = [
   'All',
+  'Cosplayers',
   'Artists',
   'Editors',
   'Video Creators',
@@ -116,5 +117,10 @@ export const COSPLAYERS = [
   },
 ]
 
-export const getCreatorBySlug = (slug) =>
-  [...CREATORS, ...COSPLAYERS].find((c) => c.slug === slug)
+// Cosplayers are merged into the Creator Hub; `kind` distinguishes them.
+export const ALL_CREATORS = [
+  ...CREATORS.map((c) => ({ ...c, kind: 'creator' })),
+  ...COSPLAYERS.map((c) => ({ ...c, kind: 'cosplayer' })),
+]
+
+export const getCreatorBySlug = (slug) => ALL_CREATORS.find((c) => c.slug === slug)
